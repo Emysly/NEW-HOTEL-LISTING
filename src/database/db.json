@@ -1,0 +1,47 @@
+[
+  {
+    "id": 4,
+    "name": "Southern Sun",
+    "website": "southernsun.com.ng",
+    "city": "Ikoyi",
+    "state": "Lagos",
+    "rating": "hjuy",
+    "price": "90"
+  },
+  {
+    "id": 6,
+    "name": "Oriental Pillars",
+    "website": "orientalpillars.com",
+    "city": "Ikoyi",
+    "state": "Lagos",
+    "rating": "5",
+    "price": "500"
+  },
+  {
+    "id": 7,
+    "name": "Sunview Hotel",
+    "website": "sunview.ng",
+    "city": "Banana Island",
+    "state": "Lagos",
+    "rating": "5",
+    "price": "180"
+  },
+  {
+    "id": 8,
+    "name": "Oriental Pillars",
+    "website": "orientalpillars.com",
+    "city": "Ikoyi",
+    "state": "Lagos",
+    "rating": "5",
+    "price": "800"
+  },
+  {
+    "id": 9,
+    "name": "Sunview Hotel",
+    "website": "sunview.ng",
+    "city": "Lekki Phase 1",
+    "state": "Lagos",
+    "rating": "4",
+    "price": "70"
+  }
+]
