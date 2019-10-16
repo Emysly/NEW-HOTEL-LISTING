@@ -45,5 +45,46 @@ export default {
         }
       });
     }
+  },
+
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      const users = await Helper.loadUsers(userDB);
+
+      const emailExist = users.find(user => email === user.email);
+
+      if (!emailExist)
+        return res.status(404).json({
+          status: "error",
+          data: {
+            message: "email not found!"
+          }
+        });
+
+      if (!bcrypt.compareSync(password, emailExist.password)) {
+        return res.status(401).json({
+          status: "error",
+          data: {
+            message: "password is incorrect!"
+          }
+        });
+      }
+
+      delete emailExist.password;
+
+      return res.status(200).json({
+        status: "success",
+        data: emailExist
+      });
+    } catch (err) {
+      return res.status(400).json({
+        status: "error",
+        error: {
+          message: err.message
+        }
+      });
+    }
   }
 };
