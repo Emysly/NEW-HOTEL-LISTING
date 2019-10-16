@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "app-root-path": "^2.2.1",
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "core-js": "^3.2.1",
     "cors": "^2.8.5",
@@ -34,17 +35,10 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "nodemon": "^1.19.2"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Emysly/NEW-HOTEL-LISTING.git"
   },
-  "keywords": [
-    "hotel",
-    "booking"
-  ],
   "author": "chukwuebuka emmanuel",
   "license": "MIT",
   "bugs": {

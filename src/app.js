@@ -28,6 +28,15 @@ app.use(router);
 
 app.use(express.static("public"));
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    data: {
+      message: "Welcome to Hotel Listing!!!"
+    }
+  });
+});
+
 app.use((req, res, next) => {
   const err = new Error("No endpoint found");
   err.status = 404;
