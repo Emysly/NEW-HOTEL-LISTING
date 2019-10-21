@@ -16,7 +16,7 @@ function getAllHotels() {
           for (let i = 0; i < hotel.rating; i++) {
             rating += `<i class="fas fa-star"></i>`;
           }
-          output += `<tr onclick="getDetails(${hotel.id})"><td>${hotel.name}</td>
+          output += `<tr><td>${hotel.name}</td>
           <td>${hotel.website}</td>
           <td>${hotel.city}</td>
           <td>${hotel.state}</td>
@@ -26,11 +26,14 @@ function getAllHotels() {
           <td>
               <a href="#" onclick="getOne(${hotel.id})" data-toggle="modal"
               data-target="#myUpdateModal">
-              <i class="fas fa-edit text-success mr-3 ml-4"></i>
+              <i class="fas fa-edit text-success mr-3 ml-3"></i>
               </a>
 
               <a href="#" onclick="deleteOne(${hotel.id})">
               <i class="fas fa-trash text-danger"></i>
+              </a>
+              <a href="#" onclick="getDetails(${hotel.id})">
+              <i class="fas fa-info-circle ml-3"></i>
               </a>
           </td><tr>`;
         });
