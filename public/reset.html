@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="../css/reset.css" />
+  </head>
+  <body>
+    <div id="msg">Congratulations you have sign up successfully</div>
+    <div class="reset">
+      <form>
+        <h2>Reset Password</h2>
+        <input
+          type="password"
+          name="username"
+          placeholder="Old password"
+        /><br /><br />
+        <input
+          type="password"
+          name="username"
+          placeholder="New password"
+        /><br /><br />
+        <input
+          type="password"
+          name="username"
+          placeholder="Confirm new password"
+        /><br /><br />
+        <input type="button" value="Save" onclick="myFunction()" /><br /><br />
+
+        <a href="login">Go back to Home page</a><br /><br />
+
+        <script>
+          function myFunction() {
+            let x = document.getElementById("msg");
+            x.className = "show";
+            setTimeout(() => {
+              x.className = x.className.replace("show", "");
+            }, 3000);
+          }
+        </script>
+      </form>
+    </div>
+  </body>
+</html>

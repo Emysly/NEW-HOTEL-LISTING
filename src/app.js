@@ -4,6 +4,7 @@ import "regenerator-runtime/runtime";
 import { config } from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import router from "./routes";
 import cors from "cors";
@@ -23,19 +24,11 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 app.use(morgan("combined"));
 app.use(router);
 
 app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: "success",
-    data: {
-      message: "Welcome to Hotel Listing!!!"
-    }
-  });
-});
 
 app.use((req, res, next) => {
   const err = new Error("No endpoint found");

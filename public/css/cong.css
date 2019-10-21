@@ -1,0 +1,85 @@
+body {
+  font-family: Tahoma, Geneva, sans-serif;
+  color: #fff;
+  background: url("../img/architecture-carpet-chandeliers-573552.jpg");
+  background-size: cover;
+}
+a {
+  color: yellow;
+  margin-left: 30px;
+}
+.cong {
+  background: rgba(44, 62, 80, 0.7);
+  padding: 40px;
+  height: 200px;
+  margin-left: 180px;
+  margin: 0 auto;
+  margin-top: 120px;
+  width: 240px;
+}
+h2 {
+  margin-top: 50px;
+  margin-left: 10px;
+}
+#msg {
+  visibility: hidden;
+  width: 340px;
+  background-color: green;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  padding: 16px;
+  z-index: 1;
+  font-size: 17px;
+  margin: 0 auto;
+}
+#msg.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  from {
+    top: 0;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
+}
+@keyframes fadeout {
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}
+@webkit-keyframes fadeout {
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: 0;
+    opacity: 0;
+  }
+}

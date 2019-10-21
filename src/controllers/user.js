@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 
 import Helper from "../helper/index";
 import appRoot from "app-root-path";
+import Authenticator from "../middleware/auth";
 
 config();
 
@@ -32,6 +33,19 @@ export default {
       users.push(newUser);
       await Helper.saveUser(users);
 
+      //we will be adding this to the jwt payload using the secret
+      const payload = Object.assign({
+        user_id: newUser.id,
+        is_admin: newUser.admin,
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email: newUser.email
+      });
+
+      //create the token and cookie
+      newUser.token = await Authenticator.createToken(payload);
+      Authenticator.createCookie(res, newUser.token);
+
       // return the newly created user
       return res.status(201).json({
         status: "success",
@@ -53,9 +67,9 @@ export default {
 
       const users = await Helper.loadUsers(userDB);
 
-      const emailExist = users.find(user => email === user.email);
+      const loggedInUser = users.find(user => email === user.email);
 
-      if (!emailExist)
+      if (!loggedInUser)
         return res.status(404).json({
           status: "error",
           data: {
@@ -63,7 +77,7 @@ export default {
           }
         });
 
-      if (!bcrypt.compareSync(password, emailExist.password)) {
+      if (!bcrypt.compareSync(password, loggedInUser.password)) {
         return res.status(401).json({
           status: "error",
           data: {
@@ -72,11 +86,24 @@ export default {
         });
       }
 
-      delete emailExist.password;
+      delete loggedInUser.password;
+
+      //we will be adding this to the jwt payload using the secret
+      const payload = Object.assign({
+        user_id: loggedInUser.id,
+        is_admin: loggedInUser.admin,
+        first_name: loggedInUser.first_name,
+        last_name: loggedInUser.last_name,
+        email: loggedInUser.email
+      });
+
+      //create the token and cookie
+      loggedInUser.token = await Authenticator.createToken(payload);
+      Authenticator.createCookie(res, loggedInUser.token);
 
       return res.status(200).json({
         status: "success",
-        data: emailExist
+        data: loggedInUser
       });
     } catch (err) {
       return res.status(400).json({
