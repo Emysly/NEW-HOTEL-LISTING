@@ -1,9 +1,8 @@
-import fs from "fs";
 import Helper from "../helper/index";
 import appRoot from "app-root-path";
+import _ from "lodash";
 
 const hotelDB = `${appRoot}/src/database/hotel.json`;
-const recycledhotelDB = `${appRoot}/src/database/recycledhotel.json`;
 const userDB = `${appRoot}/src/database/user.json`;
 
 export default class HotelController {
@@ -66,20 +65,28 @@ export default class HotelController {
 
   static async getAll(req, res) {
     try {
-      // load all hotels
-      const hotels = await Helper.loadHotels(hotelDB);
-      console.log(hotels);
-      if (hotels.length === 0) {
+      const user_id = parseInt(req.body.user_id);
+
+      if (user_id) {
+        // load all hotels
+        const hotels = await Helper.loadHotels(hotelDB);
+
+        if (hotels.length === 0) {
+          return res.status(200).json({
+            status: "success",
+            data: "No hotels found"
+          });
+        }
+
+        // return the hotels
         return res.status(200).json({
           status: "success",
-          data: "No hotels found"
+          data: hotels
         });
       }
-
-      // return the hotels
       return res.status(200).json({
         status: "success",
-        data: hotels
+        data: `you are not authorized to view this hotel/hotels`
       });
     } catch (err) {
       return res.status(400).json({
@@ -93,26 +100,36 @@ export default class HotelController {
 
   static async getOne(req, res) {
     try {
-      const { id } = req.params;
-      const hotelID = Number(id);
+      const user_id = parseInt(req.body.user_id);
+      const hotel_id = Number(req.params.id);
 
       // load all hotels
       const hotels = await Helper.loadHotels(hotelDB);
 
-      // find one hotel by the id
-      const hotel = hotels.filter(hotel => hotel.id === hotelID);
+      //load all users
+      const users = await Helper.loadUsers(userDB);
 
-      if (hotel.length === 0) {
+      // find one hotel by the id
+      const getHotel = hotels.find(hotel => hotel.id === hotel_id);
+      const getUser = users.find(user => user.is_admin === true);
+      console.log(getUser.hasOwnProperty("is_admin"));
+      if (_.isUndefined(getHotel)) {
         return res.status(404).json({
           status: "error",
-          error: `Hotel with ${id} not found`
+          error: `Hotel #${hotel_id} not found`
         });
       }
-
-      // return the hotel that was found
+      if (getHotel.created_by === user_id) {
+        const hotel = await hotels.filter(hotel => hotel.id === hotel_id);
+        // return the hotel that was found
+        return res.status(200).json({
+          status: "success",
+          data: hotel
+        });
+      }
       return res.status(200).json({
         status: "success",
-        data: hotel
+        data: `you are not authorized to view this hotel`
       });
     } catch (err) {
       return res.status(400).json({
@@ -126,32 +143,39 @@ export default class HotelController {
 
   static async deleteOne(req, res) {
     try {
-      const user_id = req.body.user_id;
-      const hotelID = Number(req.params.id);
+      const user_id = parseInt(req.body.user_id);
+      const hotel_id = Number(req.params.id);
 
       // load all hotels
-      const hotels = await Helper.loadHotels(hotelDB);
+      const allHotels = await Helper.loadHotels(hotelDB);
+      const hotelToBeDeleted = allHotels.find(hotel => hotel.id === hotel_id);
 
-      const exist = hotels.find(hotel => hotel.id === hotelID);
+      //load all users
+      const users = await Helper.loadUsers(userDB);
+      const getUser = users.find(user => user.is_admin === true);
 
-      if (typeof exist !== "undefined") {
-        if (exist.id === req.params.id) {
-          const result = hotels.filter(hotel => hotel.id !== hotelID);
-
-          const hotels = result.filter(hotel => hotel.created_by !== user_id);
-
-          await Helper.saveHotel(hotels);
-
-          return res.status(200).json({
-            status: "success",
-            data: `Hotel #${hotelID} has been deleted`
-          });
-        }
+      if (_.isUndefined(hotelToBeDeleted)) {
+        return res.status(404).json({
+          status: "error",
+          error: `hotel #${hotel_id} not found`
+        });
       }
 
-      return res.status(404).json({
-        status: "error",
-        error: `Hotel with ID: ${hotelID} does not exist or you're not authorized`
+      if (hotelToBeDeleted.created_by === user_id) {
+        const remainingHotels = await allHotels.filter(
+          hotel => hotel.id !== hotel_id
+        );
+        await Helper.saveHotel(remainingHotels);
+
+        return res.status(200).json({
+          status: "success",
+          data: `Hotel #${hotel_id} has been deleted`
+        });
+      }
+
+      return res.status(200).json({
+        status: "success",
+        data: `you are not authorized to delete this hotel`
       });
     } catch (err) {
       return res.status(400).json({
@@ -190,13 +214,20 @@ export default class HotelController {
   static async updateOne(req, res) {
     try {
       const { name, website, city, state, rating, price } = req.body;
-      const { id } = req.params;
-      const hotelID = Number(id);
+      const user_id = parseInt(req.body.user_id);
+      const hotel_id = Number(req.params.id);
 
-      // load this guy
+      // load all hotels
       const hotels = Helper.loadHotels(hotelDB);
 
-      const index = hotels.findIndex(hotel => hotel.id === hotelID);
+      //load all users
+      const users = Helper.loadUsers(userDB);
+      const getUser = users.find(user => user.is_admin === true);
+
+      const index = hotels.findIndex(hotel => hotel.id === hotel_id);
+      const hotelToBeUpdated = await hotels.find(
+        hotel => hotel.id === hotel_id
+      );
 
       if (index > -1) {
         hotels[index]["name"] = name || hotels[index]["name"];
@@ -207,16 +238,27 @@ export default class HotelController {
         hotels[index]["price"] = price || hotels[index]["price"];
 
         await Helper.saveHotel(hotels);
-
-        return res.status(200).json({
-          status: "success",
-          data: hotels[index]
+      }
+      if (_.isUndefined(hotelToBeUpdated)) {
+        return res.status(404).json({
+          status: "error",
+          error: `The hotel you are trying to update does not exist`
         });
       }
 
-      return res.status(404).json({
-        status: "error",
-        error: `The hotel you are trying to update does not exist`
+      if (hotelToBeUpdated.created_by === user_id) {
+        res.status(200).json({
+          status: "success",
+          data: hotels[index]
+        });
+        return res.status(200).json({
+          status: "success",
+          data: `Hotel #${hotel_id} has been updated`
+        });
+      }
+      return res.status(200).json({
+        status: "success",
+        data: `you are not authorized to update this hotel`
       });
     } catch (err) {
       return res.status(400).json({

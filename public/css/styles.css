@@ -3,12 +3,13 @@
 }
 
 .our-room-text {
+  color: wheat;
   text-align: center;
   margin-top: 80px;
 }
 
 .line {
-  background-color: #000;
+  background-color: #fff;
   width: 80px;
   height: 5px;
   margin: 0 auto;
