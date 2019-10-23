@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id":1,
+    "first_name":"Admin",
+    "last_name":"User",
+    "email":"admin@hotels.api",
+    "password":"$2b$10$4Z1Pd2cA/7auS7J2A9xysOD7a/cyuwGU/Gpwa2JEkFS3FLoILSnqe",
+    "is_admin":true
+  },
+  {
+    "id":2,
+    "first_name":"Normal",
+    "last_name":"User",
+    "email":"user@hotels.api",
+    "password":"$2b$10$xZl/OhkZ.C/zAdIE1f2RS.wGkgovj74lFZwATk4DLnoh3q8PmImqy",
+    "is_admin":false
+  },
+  {
+    "id":3,
+    "email":"guest@api.com",
+    "password":"$2b$10$RfGAFxIouPRJA2jlpp7ubOeCdO5DKxscP.FPhSrESzXZaVYi8Uy3C",
+    "is_admin":true
+  }
+]

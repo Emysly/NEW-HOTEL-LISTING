@@ -27,12 +27,12 @@
     </script>
     <title>Hotel Listing App</title>
   </head>
-  <body style="background-color: black">
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
       <a class="navbar-brand text-white" href="/">Hotels.ng</a>
 
       <button
-        class="navbar-toggler bg-white"
+        class="navbar-toggler bg-dark"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNavAltMarkup"
@@ -58,7 +58,10 @@
               Management
             </a>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <div
+              class="dropdown-menu bg-secondary"
+              aria-labelledby="dropdownMenuLink"
+            >
               <p class="user123 text-success pl-3"></p>
               <a class="dropdown-item" href="home"
                 ><i class="fas fa-tachometer-alt"></i> Dashboard</a
@@ -86,12 +89,14 @@
         window.location.replace("./login");
       }
 
-      const firstname = localStorage.getItem("firstname");
-      const lastname = localStorage.getItem("lastname");
+      const data = localStorage.getItem("userEmail");
+      let node = document.createElement("p"); // Create a <li> node
+      let textnode = document.createTextNode(data); // Create a text node
+      node.appendChild(textnode); // Append the text to <li>
 
-      const data = `Welcome ${firstname} ${lastname}`;
-
-      document.querySelector(".user123").append(data);
+      const result = document.createElement("a");
+      result.appendChild(node);
+      document.querySelector(".user123").append(result);
 
       (function(global) {
         if (typeof global === "undefined") {

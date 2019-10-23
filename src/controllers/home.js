@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 
+import Helper from "../helper/index";
 import appRoot from "app-root-path";
 
 config();

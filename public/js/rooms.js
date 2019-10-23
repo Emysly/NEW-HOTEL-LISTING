@@ -16,7 +16,7 @@ function getAllHotels() {
           for (let i = 0; i < hotel.rating; i++) {
             rating += `<i class="fas fa-star"></i>`;
           }
-          output += `<tr class="text-white"><td>${hotel.name}</td>
+          output += `<tr><td>${hotel.name}</td>
           <td>${hotel.website}</td>
           <td>${hotel.city}</td>
           <td>${hotel.state}</td>

@@ -1,3 +1,6 @@
+body {
+  padding-bottom: 50px;
+}
 .carousel-item > img {
   height: 500px;
 }
