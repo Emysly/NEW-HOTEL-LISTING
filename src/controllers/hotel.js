@@ -67,27 +67,40 @@ export default class HotelController {
     try {
       const user_id = parseInt(req.body.user_id);
 
-      if (user_id) {
-        // load all hotels
-        const hotels = await Helper.loadHotels(hotelDB);
+      const users = await Helper.loadUsers(userDB);
 
-        if (hotels.length === 0) {
-          return res.status(200).json({
-            status: "success",
-            data: "No hotels found"
-          });
-        }
+      // load all hotels
+      const hotels = await Helper.loadHotels(hotelDB);
 
+      // const created_by = hotels.find(hotel => hotel.created_by);
+
+      if (hotels.length === 0) {
+        return res.status(200).json({
+          status: "success",
+          data: "No hotels found"
+        });
+      }
+      const findHotel = hotels.find(hotel => hotel.created_by);
+      const created_id = users.find(user => user.id === findHotel.created_by);
+
+      console.log(created_id);
+
+      if (hotels) {
+        console.log(created_id);
+        const filteredHotel = hotels.filter(
+          hotel => hotel.created_by === created_id.id
+        );
+        console.log(filteredHotel);
         // return the hotels
         return res.status(200).json({
           status: "success",
-          data: hotels
+          data: created_id
         });
       }
-      return res.status(200).json({
-        status: "success",
-        data: `you are not authorized to view this hotel/hotels`
-      });
+      // return res.status(200).json({
+      //   status: "success",
+      //   data: `you are not authorized to view this hotel/hotels`
+      // });
     } catch (err) {
       return res.status(400).json({
         status: "error",
@@ -106,13 +119,9 @@ export default class HotelController {
       // load all hotels
       const hotels = await Helper.loadHotels(hotelDB);
 
-      //load all users
-      const users = await Helper.loadUsers(userDB);
-
       // find one hotel by the id
       const getHotel = hotels.find(hotel => hotel.id === hotel_id);
-      const getUser = users.find(user => user.is_admin === true);
-      console.log(getUser.hasOwnProperty("is_admin"));
+
       if (_.isUndefined(getHotel)) {
         return res.status(404).json({
           status: "error",
@@ -222,7 +231,6 @@ export default class HotelController {
 
       //load all users
       const users = Helper.loadUsers(userDB);
-      const getUser = users.find(user => user.is_admin === true);
 
       const index = hotels.findIndex(hotel => hotel.id === hotel_id);
       const hotelToBeUpdated = await hotels.find(

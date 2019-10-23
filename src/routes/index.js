@@ -6,6 +6,7 @@ import Authenticator from "../middleware/auth";
 
 const router = express.Router();
 
+router.get("/user/:id", UserController.getUser);
 router.post("/user/signup", UserController.create);
 router.post("/user/login", UserController.login);
 

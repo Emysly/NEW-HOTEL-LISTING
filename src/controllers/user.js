@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 import bcrypt from "bcrypt";
+import _ from "lodash";
 
 import Helper from "../helper/index";
 import appRoot from "app-root-path";
@@ -18,39 +19,50 @@ export default {
 
       const users = await Helper.loadUsers(userDB);
 
+      const userEmail = users.find(user => user.email === email);
+
       const id = users.length === 0 ? 1 : users[users.length - 1].id + 1;
 
-      const newUser = {
-        id,
-        first_name,
-        last_name,
-        email,
-        password: await bcrypt.hash(password, 10),
-        is_admin
-      };
+      if (!userEmail) {
+        return res.status(404).json({
+          status: "error",
+          error: {
+            message: "email already exist"
+          }
+        });
+      } else {
+        const newUser = {
+          id,
+          first_name,
+          last_name,
+          email,
+          password: await bcrypt.hash(password, 10),
+          is_admin
+        };
 
-      // add it to the former ones
-      users.push(newUser);
-      await Helper.saveUser(users);
+        // add it to the former ones
+        users.push(newUser);
+        await Helper.saveUser(users);
 
-      //we will be adding this to the jwt payload using the secret
-      const payload = Object.assign({
-        user_id: newUser.id,
-        is_admin: newUser.admin,
-        first_name: newUser.first_name,
-        last_name: newUser.last_name,
-        email: newUser.email
-      });
+        //we will be adding this to the jwt payload using the secret
+        const payload = Object.assign({
+          user_id: newUser.id,
+          is_admin: newUser.admin,
+          first_name: newUser.first_name,
+          last_name: newUser.last_name,
+          email: newUser.email
+        });
 
-      //create the token and cookie
-      newUser.token = await Authenticator.createToken(payload);
-      Authenticator.createCookie(res, newUser.token);
+        //create the token and cookie
+        newUser.token = await Authenticator.createToken(payload);
+        Authenticator.createCookie(res, newUser.token);
 
-      // return the newly created user
-      return res.status(201).json({
-        status: "success",
-        data: newUser
-      });
+        // return the newly created user
+        return res.status(201).json({
+          status: "success",
+          data: newUser
+        });
+      }
     } catch (err) {
       return res.status(400).json({
         status: "error",
@@ -104,6 +116,51 @@ export default {
       return res.status(200).json({
         status: "success",
         data: loggedInUser
+      });
+    } catch (err) {
+      return res.status(400).json({
+        status: "error",
+        error: {
+          message: err.message
+        }
+      });
+    }
+  },
+  getUser: async (req, res) => {
+    try {
+      // const user_id = parseInt(req.body.user_id);
+      const user_id = Number(req.params.id);
+
+      //load all users
+      const users = await Helper.loadUsers(userDB);
+
+      // find one hotel by the id
+      const getUser = users.find(user => user.is_admin === true);
+      //  const getUser = users.find(user => user.is_admin === true);
+      //  console.log(getUser.hasOwnProperty("is_admin"));
+      console.log(getUser);
+
+      const findUser = users.find(user => user.id === user_id);
+
+      console.log(findUser.is_admin);
+      if (_.isUndefined(findUser)) {
+        return res.status(404).json({
+          status: "error",
+          error: `User #${user_id} not found`
+        });
+      }
+      const findAdmin = users.find(user => user.is_admin === true);
+      if (findAdmin.is_admin) {
+        // const user = await users.filter(user => user.id !== user_id);
+        // return the hotel that was found
+        return res.status(200).json({
+          status: "success",
+          data: findUser
+        });
+      }
+      return res.status(200).json({
+        status: "success",
+        data: `you are not authorized to view this user`
       });
     } catch (err) {
       return res.status(400).json({

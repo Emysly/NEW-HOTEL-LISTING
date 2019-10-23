@@ -140,9 +140,10 @@ $(() => {
           User.token = res.data.token;
           localStorage.setItem("isLoggedIn", User.isLoggedIn);
           localStorage.setItem("token", User.token);
-          localStorage.setItem("userEmail", res.data.email);
+          localStorage.setItem("firstname", res.data.first_name);
+          localStorage.setItem("lastname", res.data.last_name);
           setTimeout(() => {
-            window.location.replace("../home");
+            window.location.replace("allhotels");
           }, 2000);
         }
       },
