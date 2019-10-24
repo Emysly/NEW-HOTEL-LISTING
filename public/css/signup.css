@@ -15,6 +15,7 @@ body {
 form {
   width: 240px;
   text-align: center;
+  position: relative;
 }
 input {
   width: 240px;
@@ -90,6 +91,14 @@ a:hover {
   visibility: visible;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.success,
+.error {
+  width: 30%;
+  position: absolute;
+  left: 2%;
+  top: 5%;
 }
 
 @keyframes fadein {

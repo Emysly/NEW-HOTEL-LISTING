@@ -95,11 +95,20 @@ a:nth-child(1) {
   font-size: 17px;
   margin: 0 auto;
 }
-#msg.show {
+
+.success,
+.error {
+  width: 30%;
+  position: absolute;
+  left: 2%;
+  top: 5%;
+}
+/* .success,
+.error {
   visibility: visible;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
+} */
 
 @keyframes fadein {
   from {

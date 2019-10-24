@@ -171,11 +171,3 @@ $(".logout").on("click", e => {
   localStorage.clear();
   window.location.replace("/");
 });
-
-function success() {
-  return $(".success").show();
-}
-
-function error() {
-  return $(".error").show();
-}

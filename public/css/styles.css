@@ -1,5 +1,6 @@
 body {
   padding-bottom: 50px;
+  position: relative;
 }
 .carousel-item > img {
   height: 500px;
@@ -24,4 +25,10 @@ body {
 
 .add-new {
   max-width: 1000px;
+}
+
+.create-error {
+  width: 25%;
+  position: absolute;
+  top: 5%;
 }

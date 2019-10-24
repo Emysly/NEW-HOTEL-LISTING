@@ -1,98 +1,47 @@
-$(() => {
-  const User = {
-    isLoggedIn: false,
-    token: ""
-  };
+function getAllHotelsFrontPage() {
+  $.ajax({
+    url: "http://localhost:3000/hotels",
+    type: "get",
+    success: function(response) {
+      const result = response.data;
 
-  $(".sign-up").on("click", e => {
-    e.preventDefault();
+      if (typeof result === "string") {
+        const output = `<div class="container mt-4 display">
+                                  <div class="card card-body">
+                                      <p>No Hotel <span class="text-danger">Found</span></p>
+                                   </div>
+  
+                    </div>`;
+        $(".frontcollections").html(output);
+      } else {
+        let output = "";
+        result.forEach(hotel => {
+          let rating = "";
 
-    const firstname = $(".firstname").val();
-    const lastname = $(".lastname").val();
-    const email = $(".email").val();
-    const password = $(".password").val();
-
-    if (!/^[a-zA-Z0-9]{3,}/.test(firstname)) {
-      return alert(
-        "please fill in the firstname properly with atleast 3 characters"
-      );
-    }
-    if (!/^[a-zA-Z0-9]{3,}/.test(lastname)) {
-      return alert(
-        "please fill in the lastname properly with atleast 3 characters"
-      );
-    }
-    if (
-      !/^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{3})+$/.test(
-        email.toLowerCase()
-      )
-    ) {
-      return alert("please fill in a valid email");
-    }
-    if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,35}$/.test(password)) {
-      return alert("The password must contain not less than 6 characters");
-    }
-
-    const newUser = {
-      firstname,
-      lastname,
-      email,
-      password
-    };
-
-    $.ajax({
-      url: "http://localhost:3000/user/signup",
-      type: "post",
-      data: newUser
-    });
-  });
-
-  $(".log-in").on("click", e => {
-    e.preventDefault();
-
-    const email = $(".email").val();
-    const password = $(".password").val();
-
-    if (
-      !/^([a-zA-Z0-9_.-])+@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{3})+$/.test(
-        email.toLowerCase()
-      )
-    ) {
-      return alert("please fill in a valid email");
-    }
-    if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,35}$/.test(password)) {
-      return alert("The password must contain not less than 6 characters");
-    }
-
-    const newUser = {
-      email,
-      password
-    };
-
-    $.ajax({
-      url: "http://localhost:3000/user/login",
-      type: "post",
-      data: newUser,
-      success: function(res) {
-        // return login();
-        if (res.status === "success") {
-          User.isLoggedIn = true;
-          User.token = res.data.token;
-          redirectToHome();
-        }
-
-        alert(res.error.message);
-      },
-      error: function(error) {
-        alert(error.statusText);
+          for (let i = 0; i < hotel.rating; i++) {
+            rating += `<i class="fas fa-star"></i>`;
+          }
+          output += `<div class="col-md-3 card card-body mt-4 mr-2 display" onclick="getDetails(${hotel.id})">
+          <img src="../img/img_4.jpg" class="card-img-top mt-3" alt="hotel interior image">
+          <div class="card-body">
+            <h4 class="card-title">${hotel.name}</h4>
+  
+            <p class="card-text">from<span class="span-price"> $${hotel.price}</span></p>
+            <ul class="list-group list-group-flush">
+    <li class="list-group-item">Rating: <h6>${rating}</span></h6></li>
+    <li class="list-group-item">Created By: <h6>${hotel.created_by}</span></h6></li>
+          </ul>
+          
+          </div>
+        </div>`;
+        });
+        $(".frontcollections").html(output);
       }
-    });
+    },
+    error: function(error) {
+      console.log(error);
+    }
   });
-});
-
-function redirectToHome() {
-  window.location.replace("../home");
 }
 
-
-
+window.onload = getAllHotelsFrontPage();
