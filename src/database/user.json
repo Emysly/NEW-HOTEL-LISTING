@@ -1,18 +1,1 @@
-[
-  {
-    "id": 1,
-    "first_name": "Admin",
-    "last_name": "User",
-    "email": "admin@hotels.api",
-    "password": "$2b$10$4Z1Pd2cA/7auS7J2A9xysOD7a/cyuwGU/Gpwa2JEkFS3FLoILSnqe",
-    "is_admin": true
-  },
-  {
-    "id": 2,
-    "first_name": "Normal",
-    "last_name": "User",
-    "email": "user@hotels.api",
-    "password": "$2b$10$xZl/OhkZ.C/zAdIE1f2RS.wGkgovj74lFZwATk4DLnoh3q8PmImqy",
-    "is_admin": false
-  }
-]
+[{"id":1,"first_name":"Admin","last_name":"User","email":"admin@hotels.api","password":"$2b$10$4Z1Pd2cA/7auS7J2A9xysOD7a/cyuwGU/Gpwa2JEkFS3FLoILSnqe","is_admin":true},{"id":2,"first_name":"Normal","last_name":"User","email":"user@hotels.api","password":"$2b$10$xZl/OhkZ.C/zAdIE1f2RS.wGkgovj74lFZwATk4DLnoh3q8PmImqy","is_admin":false},{"id":3,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$Eoayswy.SCwzHavrSer0ZO5PNfS4QkFYQDG8BCiA/WXgWZKCv8Jla","is_admin":false},{"id":4,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$Lfq4dNE2wQjZ5qI2/k4QleYzim9q65GbbAelJAIjHZ49AZtye8AIO","is_admin":false},{"id":5,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$qUoFlMXThVwIxtyUIQcgy.p.A3/8EhMTzTuALr0OqNB44bodF6I7S","is_admin":false},{"id":6,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$gE1dQZ3j4h2.26m9h6eoAOYcsodgDB8qiNqPcqkrh9y6EEhxmMyMa","is_admin":false},{"id":7,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$FffIYjL03Twzmqo5FnOi/.G0dllsaCxQ/KCALzMxBMOM1FE4qP8Gq","is_admin":false},{"id":8,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$N80MHCav/zSf.2R1VnN83.s2O3BMoutBs/J2geXBnm7E1x4VqIDfi","is_admin":false},{"id":9,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$xgE0MHjCCd8Yiaf4HBgc2ewmQEjgAUi/c/c/lvnw.wTRr4ZHfd5Om","is_admin":false},{"id":10,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$LLPSYcpEmqnJQHyrJ29SUuk7rPsFWiZp72JmRkXofMt0Qyli8.3wG","is_admin":false},{"id":11,"first_name":"john","last_name":"doe","email":"jdoe@hotels.api","password":"$2b$10$rF71vGOfzC.09.VZxx.6JecL7C.cDjcBNVB/ZrVGn4lzmjb4h11G6","is_admin":false},{"id":12,"first_name":"john","last_name":"doe","email":"jdoee@hotels.api","password":"$2b$10$yI/XYTiStruP7SRfesoJVOFpV8vvKCgsGUW23iw9/LpltcC4Xwk5e","is_admin":false},{"id":13,"first_name":"john","last_name":"doe","email":"jdoee@hotels.api","password":"$2b$10$mEiAgT.Nu.dLqKPHePJNru4.7WSfXtCLFVeGM1DLRYBFBxC8EAWz6","is_admin":false},{"id":14,"first_name":"john","last_name":"doe","email":"jdoee@hotels.api","password":"$2b$10$ACiskQHXO5sun4PhHaClvOrebIxtJnqQPB7cKupA80Ca8q5AXJDqK","is_admin":false},{"id":15,"first_name":"john","last_name":"doe","email":"jdoee@hotels.api","password":"$2b$10$7ZIPDmG.ktsiw94UGIryMuOU7yleKvqGeTsojSzvzfV8VqNJOwi2i","is_admin":false},{"id":16,"first_name":"john","last_name":"doe","email":"jdoee@hotels.api","password":"$2b$10$amJbR4rA7RBqVT2bANP7WOlFT7WtkP.m8nTB5Yy8lzjfkgQ4dCSSe","is_admin":false}]

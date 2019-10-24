@@ -1,3 +1,7 @@
+let message = "";
+$(".success").hide();
+$(".error").hide();
+$(".create-error").hide();
 function getAllUserHotels() {
   $.ajax({
     url: "http://localhost:3000/hotels/admin",
@@ -70,15 +74,35 @@ function updateHotel(id) {
       );
     },
     success: function() {
-      getAllUserHotels();
+      getAllHotels();
+      message = `
+      <p class="text-center">Hotel has been updated<i class="fas fa-check"></i></p>
+   `;
+
+      $(".success").html(message);
+      $(".success").show();
+      setTimeout(() => {
+        $(".success").hide();
+      }, 3000);
     },
     error: function(error) {
       console.log(error);
+      message = `
+      <p class="text-center">Something went wrong, hotel not updated<i class="fas fa-times"></i></p>
+   `;
+
+      $(".error").html(message);
+      $(".error").show();
+      setTimeout(() => {
+        $(".error").hide();
+      }, 3000);
+      return;
     }
   });
 }
 
 function getOne(id) {
+  //get a hotel before updating
   $.ajax({
     url: `http://localhost:3000/hotel/${id}`,
     type: "get",
@@ -112,6 +136,7 @@ function getOne(id) {
 }
 
 function deleteOne(id) {
+  //delete a hotel
   $.ajax({
     url: `http://localhost:3000/hotel/${id}`,
     type: "delete",
@@ -122,7 +147,15 @@ function deleteOne(id) {
       );
     },
     success: function() {
-      getAllUserHotels();
+      getAllHotels();
+      message = `<p class="text-center">Hotel has been deleted<i class="fas fa-check"></i></p>`;
+
+      $(".success").html(message);
+      $(".success").show();
+      setTimeout(() => {
+        $(".success").hide();
+      }, 3000);
+      return;
     },
     error: function(error) {
       console.log(error);
@@ -131,6 +164,7 @@ function deleteOne(id) {
 }
 
 function create() {
+  //create a hotel
   const name = $(".name").val();
   const website = $(".website").val();
   const city = $(".city").val();
@@ -139,31 +173,104 @@ function create() {
   const price = $(".price").val();
 
   if (name === "") {
-    return alert("please fill in the name");
+    message = `
+    <p class="text-center">name has to be filled<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
   if (website === "") {
-    return alert("please fill in the website");
+    message = `
+    <p class="text-center">website has to be filled<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
   if (city === "") {
-    return alert("please fill in the city");
+    message = `
+    <p class="text-center">city has to be filled<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
   if (state === "") {
-    return alert("please fill in the state");
+    message = `
+    <p class="text-center">state has to be filled<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
   if (rating === "") {
-    return alert("please fill in the rating");
+    message = `
+    <p class="text-center">rating has to be filled<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
 
   if (isNaN(rating) || rating > 5) {
-    return alert("please you can only add numbers from 1 - 5");
+    message = `
+    <p class="text-center">rating has to be filled with only number from 1 - 5<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
   if (price === "") {
-    return alert("please fill in the price");
+    message = `
+    <p class="text-center">price has to be filled<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
   if (isNaN(price)) {
-    return alert("please you can only add numbers");
+    message = `
+    <p class="text-center">price has to be filled with only numbers<i class="fas fa-times"></i></p>
+ `;
+
+    $(".create-error").html(message);
+    $(".create-error").show();
+    setTimeout(() => {
+      $(".create-error").hide();
+    }, 3000);
+    return;
   }
 
+  //create a new hotel
   let newHotel = {
     name,
     website,
@@ -185,23 +292,29 @@ function create() {
     },
     data: newHotel,
     success: function() {
-      // $("#myModal").hide();
-
-      // const message = $(".display").show();
-
-      // function messageMe() {
-      //   return message;
-      // }
-
-      // setTimeout(() => {
-      //   messageMe();
-      // }, 3000);
-
-      getAllUserHotels();
+      getAllHotels();
       $("#myModal").hide();
+      output = `
+      <p class="text-center">Hotel has been created<i class="fas fa-check"></i></p>
+   `;
+
+      $(".success").html(output);
+      $(".success").show();
+      setTimeout(() => {
+        $(".success").hide();
+      }, 3000);
     },
     error: function(error) {
       console.log(error);
+      output = `
+      <p class="text-center">Something went wrong, hotel not created<i class="fas fa-times"></i></p>
+   `;
+
+      $(".error").html(output);
+      $(".error").show();
+      setTimeout(() => {
+        $(".error").hide();
+      }, 3000);
     }
   });
 }
@@ -212,14 +325,33 @@ $(".create").on("click", e => {
 });
 
 function deleteAll() {
+  //delete all hotel
   $.ajax({
     url: `http://localhost:3000/hotels`,
     type: "delete",
-    success: function(response) {
-      getAllUserHotels();
+    success: function() {
+      getAllHotels();
+      output = `
+      <p class="text-center">All hotels has been deleted<i class="fas fa-check"></i></p>
+   `;
+
+      $(".success").html(output);
+      $(".success").show();
+      setTimeout(() => {
+        $(".success").hide();
+      }, 3000);
     },
     error: function(error) {
       console.log(error);
+      output = `
+      <p class="text-center">Something went wrong, hotels not deleted<i class="fas fa-times"></i></p>
+   `;
+
+      $(".error").html(output);
+      $(".error").show();
+      setTimeout(() => {
+        $(".error").hide();
+      }, 3000);
     }
   });
 }
@@ -228,11 +360,22 @@ $(".delete-all").on("click", e => {
   if (confirm("Are You Sure You Want To Delete All Hotels")) {
     deleteAll();
   } else {
-    getAllUserHotels();
+    getAllHotels();
+    output = `
+      <p class="text-center">Hotels not deleted<i class="fas fa-check"></i></p>
+   `;
+
+    $(".success").html(output);
+    $(".success").show();
+    setTimeout(() => {
+      $(".success").hide();
+    }, 3000);
+    return;
   }
 });
 
 function getDetails(id) {
+  //get a hotel
   $.ajax({
     url: `http://localhost:3000/hotel/${id}`,
     type: "get",
@@ -244,9 +387,10 @@ function getDetails(id) {
         city,
         state,
         price,
-        rating
+        rating,
+        created_by
       } = response.data[0];
-      // $('.collections').html = response.data
+
       let ratings = "";
 
       for (let i = 0; i < rating; i++) {
@@ -273,6 +417,16 @@ function getDetails(id) {
     },
     error: function(error) {
       console.log(error);
+      output = `
+      <p class="text-center">Something went wrong, can't get a hotel<i class="fas fa-times"></i></p>
+   `;
+
+      $(".error").html(output);
+      $(".error").show();
+      setTimeout(() => {
+        $(".error").hide();
+      }, 3000);
+      return;
     }
   });
 }

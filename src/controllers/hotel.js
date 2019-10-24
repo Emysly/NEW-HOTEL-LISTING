@@ -234,7 +234,7 @@ export default class HotelController {
       const index = hotels.findIndex(hotel => hotel.id === hotel_id);
 
       //check if the index exist in the hotel array
-      if (index) {
+      if (index > -1) {
         hotels[index]["name"] = name || hotels[index]["name"];
         hotels[index]["website"] = website || hotels[index]["website"];
         hotels[index]["city"] = city || hotels[index]["city"];

@@ -75,6 +75,7 @@ function updateHotel(id) {
       );
     },
     success: function() {
+      getAllHotels();
       message = `
       <p class="text-center">Hotel has been updated<i class="fas fa-check"></i></p>
    `;
@@ -83,7 +84,6 @@ function updateHotel(id) {
       $(".success").show();
       setTimeout(() => {
         $(".success").hide();
-        getAllHotels();
       }, 3000);
     },
     error: function(error) {
