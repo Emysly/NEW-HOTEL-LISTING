@@ -142,9 +142,13 @@ $(() => {
           localStorage.setItem("token", User.token);
           localStorage.setItem("firstname", res.data.first_name);
           localStorage.setItem("lastname", res.data.last_name);
-          setTimeout(() => {
-            window.location.replace("allhotels");
-          }, 2000);
+          localStorage.setItem("id", res.data.id);
+
+          if (res.data.is_admin) {
+            window.location.replace("../admin.html");
+          } else {
+            window.location.replace("../hotel.html");
+          }
         }
       },
       error: function(err) {

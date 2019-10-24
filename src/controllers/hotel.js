@@ -7,7 +7,44 @@ const userDB = `${appRoot}/src/database/user.json`;
 
 export default class HotelController {
   static async getAllHotels(req, res) {
-    res.sendFile(`${appRoot}/public/hotel.html`);
+    try {
+      const user_id = req.body.user_id;
+      // load all hotels
+      const hotels = await Helper.loadHotels(hotelDB);
+      // const users = await Helper.loadUsers(userDB);
+
+      // const findHotel = hotels.find(hotel => hotel.created_by);
+      // const findUser = users.find(user => user.id === findHotel.created_by);
+      // const id = window.localStorage.getItem("id");
+      // console.log(user);
+      if (hotels.length === 0) {
+        return res.status(200).json({
+          status: "success",
+          data: "No hotels found"
+        });
+      }
+      // for (let user of users) {
+      //   const me = user.id;
+      //   console.log(me);
+      const filteredHotels = hotels.filter(
+        hotel => hotel.created_by === user_id
+      );
+      return res.status(200).json({
+        status: "success",
+        data: filteredHotels
+      });
+      // }
+
+      // console.log(filteredHotels);
+      // return the hotels
+    } catch (err) {
+      return res.status(400).json({
+        status: "error",
+        error: {
+          message: err.message
+        }
+      });
+    }
   }
 
   static async create(req, res) {
@@ -65,21 +102,33 @@ export default class HotelController {
 
   static async getAll(req, res) {
     try {
+      // console.log(req.body.user_id);
       // load all hotels
       const hotels = await Helper.loadHotels(hotelDB);
-      console.log(hotels);
+      // const users = await Helper.loadUsers(userDB);
+
+      // const findHotel = hotels.find(hotel => hotel.created_by);
+      // const findUser = users.find(user => user.id === findHotel.created_by);
+      // const id = window.localStorage.getItem("id");
+      // console.log(user);
       if (hotels.length === 0) {
         return res.status(200).json({
           status: "success",
           data: "No hotels found"
         });
       }
-
-      // return the hotels
+      // for (let user of users) {
+      //   const me = user.id;
+      //   console.log(me);
+      // const filteredHotels = hotels.filter(hotel => hotel.created_by === id);
       return res.status(200).json({
         status: "success",
         data: hotels
       });
+      // }
+
+      // console.log(filteredHotels);
+      // return the hotels
     } catch (err) {
       return res.status(400).json({
         status: "error",
@@ -125,7 +174,6 @@ export default class HotelController {
 
   static async deleteOne(req, res) {
     try {
-      const user_id = parseInt(req.body.user_id);
       const hotel_id = Number(req.params.id);
 
       // load all hotels
@@ -139,17 +187,15 @@ export default class HotelController {
         });
       }
 
-      if (hotelToBeDeleted.created_by === user_id) {
-        const remainingHotels = await allHotels.filter(
-          hotel => hotel.id !== hotel_id
-        );
-        await Helper.saveHotel(remainingHotels);
+      const remainingHotels = await allHotels.filter(
+        hotel => hotel.id !== hotel_id
+      );
+      await Helper.saveHotel(remainingHotels);
 
-        return res.status(200).json({
-          status: "success",
-          data: `Hotel #${hotel_id} has been deleted`
-        });
-      }
+      return res.status(200).json({
+        status: "success",
+        data: `Hotel #${hotel_id} has been deleted`
+      });
 
       return res.status(200).json({
         status: "success",
@@ -191,12 +237,13 @@ export default class HotelController {
 
   static async updateOne(req, res) {
     try {
+      const hotel_id = Number(req.params.id);
       const { name, website, city, state, rating, price } = req.body;
 
       // load this guy
       const hotels = Helper.loadHotels(hotelDB);
 
-      const index = hotels.findIndex(hotel => hotel.id === hotelID);
+      const index = hotels.findIndex(hotel => hotel.id === hotel_id);
 
       if (index > -1) {
         hotels[index]["name"] = name || hotels[index]["name"];
@@ -218,6 +265,44 @@ export default class HotelController {
         status: "error",
         error: `The hotel you are trying to update does not exist`
       });
+    } catch (err) {
+      return res.status(400).json({
+        status: "error",
+        error: {
+          message: err.message
+        }
+      });
+    }
+  }
+  static async getAllUserHotels(req, res) {
+    try {
+      // console.log(req.body.user_id);
+      // load all hotels
+      const hotels = await Helper.loadHotels(hotelDB);
+      // const users = await Helper.loadUsers(userDB);
+
+      // const findHotel = hotels.find(hotel => hotel.created_by);
+      // const findUser = users.find(user => user.id === findHotel.created_by);
+      // const id = window.localStorage.getItem("id");
+      // console.log(user);
+      if (hotels.length === 0) {
+        return res.status(200).json({
+          status: "success",
+          data: "No hotels found"
+        });
+      }
+      // for (let user of users) {
+      //   const me = user.id;
+      //   console.log(me);
+      // const filteredHotels = hotels.filter(hotel => hotel.created_by === id);
+      return res.status(200).json({
+        status: "success",
+        data: hotels
+      });
+      // }
+
+      // console.log(filteredHotels);
+      // return the hotels
     } catch (err) {
       return res.status(400).json({
         status: "error",

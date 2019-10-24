@@ -22,6 +22,11 @@ router.get(
 );
 router.get("/hotels", HotelController.getAll);
 router.get("/hotel/:id", Authenticator.isLoggedIn, HotelController.getOne);
+router.get(
+  "/hotels/admin",
+  Authenticator.isLoggedIn,
+  HotelController.getAllUserHotels
+);
 router.post("/hotels", Authenticator.isLoggedIn, HotelController.create);
 router.patch("/hotel/:id", Authenticator.isLoggedIn, HotelController.updateOne);
 router.delete(
