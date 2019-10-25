@@ -9,8 +9,8 @@ function getAllUserHotels() {
     success: function(response) {
       const result = response.data;
 
-      if (typeof result === "string") {
-        const output = `<tr><td>No Hotel <span class="text-danger">Found</span></td></tr>`;
+      if (result.length === 0) {
+        const output = `<tr><td class="text-white">No Hotel <span class="text-danger">Found</span></td></tr>`;
         $(".result").html(output);
       } else {
         let output = "";
@@ -73,10 +73,10 @@ function updateHotel(id) {
         `Bearer ${localStorage.getItem("token")}`
       );
     },
-    success: function() {
-      getAllHotels();
+    success: function(res) {
+      getAllUserHotels();
       message = `
-      <p class="text-center">Hotel has been updated<i class="fas fa-check"></i></p>
+      <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;
 
       $(".success").html(message);
@@ -88,7 +88,7 @@ function updateHotel(id) {
     error: function(error) {
       console.log(error);
       message = `
-      <p class="text-center">Something went wrong, hotel not updated<i class="fas fa-times"></i></p>
+      <p class="text-center">${res.error}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(message);
@@ -146,9 +146,9 @@ function deleteOne(id) {
         `Bearer ${localStorage.getItem("token")}`
       );
     },
-    success: function() {
-      getAllHotels();
-      message = `<p class="text-center">Hotel has been deleted<i class="fas fa-check"></i></p>`;
+    success: function(res) {
+      getAllUserHotels();
+      message = `<p class="text-center">${res.data}<i class="fas fa-check"></i></p>`;
 
       $(".success").html(message);
       $(".success").show();
@@ -159,6 +159,14 @@ function deleteOne(id) {
     },
     error: function(error) {
       console.log(error);
+      message = `<p class="text-center">${error.error}<i class="fas fa-check"></i></p>`;
+
+      $(".success").html(message);
+      $(".success").show();
+      setTimeout(() => {
+        $(".success").hide();
+      }, 3000);
+      return;
     }
   });
 }
@@ -291,11 +299,11 @@ function create() {
       );
     },
     data: newHotel,
-    success: function() {
-      getAllHotels();
+    success: function(res) {
+      getAllUserHotels();
       $("#myModal").hide();
       output = `
-      <p class="text-center">Hotel has been created<i class="fas fa-check"></i></p>
+      <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;
 
       $(".success").html(output);
@@ -307,7 +315,7 @@ function create() {
     error: function(error) {
       console.log(error);
       output = `
-      <p class="text-center">Something went wrong, hotel not created<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.error.message}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(output);
@@ -329,10 +337,10 @@ function deleteAll() {
   $.ajax({
     url: `http://localhost:3000/hotels`,
     type: "delete",
-    success: function() {
-      getAllHotels();
+    success: function(res) {
+      getAllUserHotels();
       output = `
-      <p class="text-center">All hotels has been deleted<i class="fas fa-check"></i></p>
+      <p class="text-center">${res.data}<i class="fas fa-check"></i></p>
    `;
 
       $(".success").html(output);
@@ -344,7 +352,7 @@ function deleteAll() {
     error: function(error) {
       console.log(error);
       output = `
-      <p class="text-center">Something went wrong, hotels not deleted<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.error.message}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(output);
@@ -360,7 +368,7 @@ $(".delete-all").on("click", e => {
   if (confirm("Are You Sure You Want To Delete All Hotels")) {
     deleteAll();
   } else {
-    getAllHotels();
+    getAllUserHotels();
     output = `
       <p class="text-center">Hotels not deleted<i class="fas fa-check"></i></p>
    `;
@@ -396,7 +404,7 @@ function getDetails(id) {
       for (let i = 0; i < rating; i++) {
         ratings += `<i class="fas fa-star"></i>`;
       }
-      const output = `<tr class="text-white"><td><i class="fas fa-arrow-circle-left mr-1" onclick="getAllHotels()"></i>${name}</td>
+      const output = `<tr class="text-white"><td><i class="fas fa-arrow-circle-left mr-1" onclick="getAllUserHotels()"></i>${name}</td>
         <td>${website}</td>
         <td>${city}</td>
         <td>${state}</td>
@@ -418,7 +426,7 @@ function getDetails(id) {
     error: function(error) {
       console.log(error);
       output = `
-      <p class="text-center">Something went wrong, can't get a hotel<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.error}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(output);

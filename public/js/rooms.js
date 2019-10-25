@@ -10,8 +10,8 @@ function getAllHotels() {
     success: function(response) {
       const result = response.data;
 
-      if (typeof result === "string") {
-        const output = `<tr><td>No Hotel <span class="text-danger">Found</span></td></tr>`;
+      if (result.length === 0) {
+        const output = `<tr><td class="text-white">No Hotel <span class="text-danger">Found</span></td></tr>`;
         $(".collections").html(output);
       } else {
         let output = "";
@@ -44,9 +44,6 @@ function getAllHotels() {
         });
         $(".collections").html(output);
       }
-    },
-    error: function(error) {
-      console.log(error);
     }
   });
 }
@@ -74,10 +71,10 @@ function updateHotel(id) {
         `Bearer ${localStorage.getItem("token")}`
       );
     },
-    success: function() {
+    success: function(res) {
       getAllHotels();
       message = `
-      <p class="text-center">Hotel has been updated<i class="fas fa-check"></i></p>
+      <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;
 
       $(".success").html(message);
@@ -89,7 +86,7 @@ function updateHotel(id) {
     error: function(error) {
       console.log(error);
       message = `
-      <p class="text-center">Something went wrong, hotel not updated<i class="fas fa-times"></i></p>
+      <p class="text-center">${res.error}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(message);
@@ -147,9 +144,9 @@ function deleteOne(id) {
         `Bearer ${localStorage.getItem("token")}`
       );
     },
-    success: function() {
+    success: function(res) {
       getAllHotels();
-      message = `<p class="text-center">Hotel has been deleted<i class="fas fa-check"></i></p>`;
+      message = `<p class="text-center">${res.data}<i class="fas fa-check"></i></p>`;
 
       $(".success").html(message);
       $(".success").show();
@@ -160,6 +157,14 @@ function deleteOne(id) {
     },
     error: function(error) {
       console.log(error);
+      message = `<p class="text-center">${error.error}<i class="fas fa-check"></i></p>`;
+
+      $(".success").html(message);
+      $(".success").show();
+      setTimeout(() => {
+        $(".success").hide();
+      }, 3000);
+      return;
     }
   });
 }
@@ -292,11 +297,11 @@ function create() {
       );
     },
     data: newHotel,
-    success: function() {
+    success: function(res) {
       getAllHotels();
       $("#myModal").hide();
       output = `
-      <p class="text-center">Hotel has been created<i class="fas fa-check"></i></p>
+      <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;
 
       $(".success").html(output);
@@ -308,7 +313,7 @@ function create() {
     error: function(error) {
       console.log(error);
       output = `
-      <p class="text-center">Something went wrong, hotel not created<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.error.message}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(output);
@@ -330,10 +335,10 @@ function deleteAll() {
   $.ajax({
     url: `http://localhost:3000/hotels`,
     type: "delete",
-    success: function() {
+    success: function(res) {
       getAllHotels();
       output = `
-      <p class="text-center">All hotels has been deleted<i class="fas fa-check"></i></p>
+      <p class="text-center">${res.data}<i class="fas fa-check"></i></p>
    `;
 
       $(".success").html(output);
@@ -345,7 +350,7 @@ function deleteAll() {
     error: function(error) {
       console.log(error);
       output = `
-      <p class="text-center">Something went wrong, hotels not deleted<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.error.message}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(output);
@@ -419,7 +424,7 @@ function getDetails(id) {
     error: function(error) {
       console.log(error);
       output = `
-      <p class="text-center">Something went wrong, can't get a hotel<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.error}<i class="fas fa-times"></i></p>
    `;
 
       $(".error").html(output);

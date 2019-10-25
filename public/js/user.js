@@ -4,16 +4,20 @@ $(() => {
     isLoggedIn: false,
     token: ""
   };
+  $(".success").hide();
+  $(".error").hide();
 
   $(".sign-up").on("click", e => {
     e.preventDefault();
 
-    const firstname = $(".firstname").val();
-    const lastname = $(".lastname").val();
-    const email = $(".email").val();
+    const first_name = $(".firstname").val();
+    const last_name = $(".lastname").val();
+    const email = $(".email")
+      .val()
+      .toLowerCase();
     const password = $(".password").val();
 
-    if (!/^[a-zA-Z0-9]{3,}/.test(firstname)) {
+    if (!/^[a-zA-Z0-9]{3,}/.test(first_name)) {
       output = `<p class="text-center">please fill in the firstname properly with atleast 3 characters  <i class="fas fa-times"></i></p>`;
 
       $(".error").html(output);
@@ -23,7 +27,7 @@ $(() => {
       }, 3000);
       return;
     }
-    if (!/^[a-zA-Z0-9]{3,}/.test(lastname)) {
+    if (!/^[a-zA-Z0-9]{3,}/.test(last_name)) {
       output = `<p class="text-center">please fill in the lastname properly with atleast 3 characters  <i class="fas fa-times"></i></p>`;
 
       $(".error").html(output);
@@ -57,8 +61,8 @@ $(() => {
     }
 
     const newUser = {
-      firstname,
-      lastname,
+      first_name,
+      last_name,
       email,
       password
     };
@@ -68,7 +72,13 @@ $(() => {
       type: "post",
       data: newUser,
       success: function(res) {
+        output = `<p class="text-center">${res.message}<i class="fas fa-user-check"></i></p>`;
+
+        $(".success").html(output);
         $(".success").show();
+        setTimeout(() => {
+          $(".success").hide();
+        }, 3000);
         if (res.status === "success") {
           setTimeout(() => {
             $(".success").hide();
@@ -77,6 +87,17 @@ $(() => {
             window.location.replace("../login");
           }, 2000);
         }
+      },
+      error: function(err) {
+        console.log(err);
+        output = `<p class="text-center">${err.responseJSON.data.message}<i class="fas fa-user-times"></i></p>`;
+
+        $(".error").html(output);
+        $(".error").show();
+        setTimeout(() => {
+          $(".error").hide();
+        }, 3000);
+        return;
       }
     });
   });
@@ -124,8 +145,7 @@ $(() => {
       type: "post",
       data: newUser,
       success: function(res) {
-        // return login();
-        output = `<p class="text-center">You have log in successfully  <i class="fas fa-user-check"></i></p>`;
+        output = `<p class="text-center">${res.message}<i class="fas fa-user-check"></i></p>`;
 
         $(".success").html(output);
         $(".success").show();
@@ -153,7 +173,7 @@ $(() => {
       },
       error: function(err) {
         console.log(err);
-        output = `<p class="text-center">Incorrect password  <i class="fas fa-user-times"></i></p>`;
+        output = `<p class="text-center">${err.responseJSON.data.message}<i class="fas fa-user-times"></i></p>`;
 
         $(".error").html(output);
         $(".error").show();

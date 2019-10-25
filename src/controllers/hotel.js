@@ -17,7 +17,7 @@ export default class HotelController {
       if (hotels.length === 0) {
         return res.status(200).json({
           status: "success",
-          data: "No hotels found"
+          data: []
         });
       }
 
@@ -83,6 +83,7 @@ export default class HotelController {
       // return the newly created hotel
       return res.status(201).json({
         status: "success",
+        message: "Hotel has been created",
         data: newHotel
       });
     } catch (err) {
@@ -104,7 +105,7 @@ export default class HotelController {
       if (hotels.length === 0) {
         return res.status(200).json({
           status: "success",
-          data: "No hotels found"
+          data: []
         });
       }
 
@@ -247,6 +248,7 @@ export default class HotelController {
         //if index exist update the hotel and return the updated hotels
         return res.status(200).json({
           status: "success",
+          message: "Hotel updated successfully",
           data: hotels[index]
         });
       }

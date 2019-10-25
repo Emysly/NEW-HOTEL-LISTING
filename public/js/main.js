@@ -5,10 +5,10 @@ function getAllHotelsFrontPage() {
     success: function(response) {
       const result = response.data;
 
-      if (typeof result === "string") {
+      if (result.length === 0) {
         const output = `<div class="container mt-4 display">
                                   <div class="card card-body">
-                                      <p>No Hotel <span class="text-danger">Found</span></p>
+                                      <p class="text-white">No Hotel <span class="text-danger">Found</span></p>
                                    </div>
   
                     </div>`;
