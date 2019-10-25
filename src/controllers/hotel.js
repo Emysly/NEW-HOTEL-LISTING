@@ -276,7 +276,7 @@ export default class HotelController {
       if (hotels.length === 0) {
         return res.status(200).json({
           status: "success",
-          data: "No hotels found"
+          data: []
         });
       }
       //if hotel exist return the hotels collection

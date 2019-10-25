@@ -65,20 +65,23 @@ function updateHotel(id) {
     url: `http://localhost:3000/hotel/${id}`,
     type: "patch",
     data: updatedHotel,
+    async: true,
     beforeSend: function(xhr) {
       xhr.setRequestHeader(
         "Authorization",
         `Bearer ${localStorage.getItem("token")}`
       );
     },
-    success: function(res) {
+    success: async function(res) {
       getAllHotels();
       message = `
       <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;
 
-      $(".success").html(message);
-      $(".success").show();
+      await $("#myUpdateModal").modal("hide");
+      $(".success")
+        .html(message)
+        .show();
       setTimeout(() => {
         $(".success").hide();
       }, 3000);
@@ -123,7 +126,7 @@ function getOne(id) {
 
       $(".update").on("click", e => {
         e.preventDefault();
-        $("#myUpdateModal").hide();
+        // $("#myUpdateModal").hide();
         updateHotel(id);
       });
     },
@@ -299,7 +302,7 @@ function create() {
     data: newHotel,
     success: function(res) {
       getAllHotels();
-      $("#myModal").hide();
+      $("#myModal").modal("hide");
       output = `
       <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;

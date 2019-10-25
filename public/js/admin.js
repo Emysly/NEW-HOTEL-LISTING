@@ -125,7 +125,7 @@ function getOne(id) {
 
       $(".update").on("click", e => {
         e.preventDefault();
-        $("#myUpdateModal").hide();
+        $("#myUpdateModal").modal("hide");
         updateHotel(id);
       });
     },
@@ -301,7 +301,7 @@ function create() {
     data: newHotel,
     success: function(res) {
       getAllUserHotels();
-      $("#myModal").hide();
+      $("#myModal").modal("hide");
       output = `
       <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;

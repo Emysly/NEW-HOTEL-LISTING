@@ -55,8 +55,6 @@ export default {
         ...jwt.verify(token, publicKey, { algorithm: encryptionType })
       };
 
-      console.log(token);
-
       // remove the token creation time; it's not needed
       delete req.body.iat;
 
