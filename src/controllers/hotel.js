@@ -67,12 +67,12 @@ export default class HotelController {
       // create the new hotel
       const newHotel = {
         id,
-        name,
-        website,
-        city,
-        state,
-        rating,
-        price,
+        name: name.trim(),
+        website: website.trim(),
+        city: city.trim(),
+        state: state.trim(),
+        rating: parseInt(rating.trim()).toFixed(0),
+        price: parseInt(price.trim()).toFixed(0),
         created_by
       };
 
@@ -166,6 +166,9 @@ export default class HotelController {
       // load all hotels
       const allHotels = await Helper.loadHotels(hotelDB);
 
+      //find the hotel to know if it exist
+      const findHotel = allHotels.find(hotel => hotel.id === hotel_id);
+
       // filter hotel by the id that match the req params
       const remainingHotels = await allHotels.filter(
         hotel => hotel.id !== hotel_id
@@ -173,7 +176,7 @@ export default class HotelController {
       await Helper.saveHotel(remainingHotels);
 
       //check if no hotel exist
-      if (allHotels.length === 0) {
+      if (!findHotel) {
         return res.status(404).json({
           status: "error",
           error: `hotel #${hotel_id} not found`
@@ -236,12 +239,14 @@ export default class HotelController {
 
       //check if the index exist in the hotel array
       if (index > -1) {
-        hotels[index]["name"] = name || hotels[index]["name"];
-        hotels[index]["website"] = website || hotels[index]["website"];
-        hotels[index]["city"] = city || hotels[index]["city"];
-        hotels[index]["state"] = state || hotels[index]["state"];
-        hotels[index]["rating"] = rating || hotels[index]["rating"];
-        hotels[index]["price"] = price || hotels[index]["price"];
+        hotels[index]["name"] = name.trim() || hotels[index]["name"];
+        hotels[index]["website"] = website.trim() || hotels[index]["website"];
+        hotels[index]["city"] = city.trim() || hotels[index]["city"];
+        hotels[index]["state"] = state.trim() || hotels[index]["state"];
+        hotels[index]["rating"] =
+          parseInt(rating.trim()).toFixed(0) || hotels[index]["rating"];
+        hotels[index]["price"] =
+          parseInt(price.trim()).toFixed(0) || hotels[index]["price"];
 
         await Helper.saveHotel(hotels);
 

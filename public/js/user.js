@@ -10,18 +10,24 @@ $(() => {
   $(".sign-up").on("click", e => {
     e.preventDefault();
 
-    const first_name = $(".firstname").val();
-    const last_name = $(".lastname").val();
+    const first_name = $(".firstname")
+      .val()
+      .trim();
+    const last_name = $(".lastname")
+      .val()
+      .trim();
     const email = $(".email")
       .val()
+      .trim()
       .toLowerCase();
     const password = $(".password").val();
 
     if (!/^[a-zA-Z0-9]{3,}/.test(first_name)) {
       output = `<p class="text-center">please fill in the firstname properly with atleast 3 characters  <i class="fas fa-times"></i></p>`;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -30,8 +36,9 @@ $(() => {
     if (!/^[a-zA-Z0-9]{3,}/.test(last_name)) {
       output = `<p class="text-center">please fill in the lastname properly with atleast 3 characters  <i class="fas fa-times"></i></p>`;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -42,8 +49,9 @@ $(() => {
     ) {
       output = `<p class="text-center">please fill in a valid email  <i class="fas fa-times"></i></p>`;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -52,8 +60,9 @@ $(() => {
     if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,35}$/.test(password)) {
       output = `<p class="text-center">The password must contain not less than 6 characters  <i class="fas fa-times"></i></p>`;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -74,26 +83,23 @@ $(() => {
       success: function(res) {
         output = `<p class="text-center">${res.message}<i class="fas fa-user-check"></i></p>`;
 
-        $(".success").html(output);
-        $(".success").show();
+        $(".success")
+          .html(output)
+          .show();
         setTimeout(() => {
           $(".success").hide();
-        }, 3000);
-        if (res.status === "success") {
-          setTimeout(() => {
-            $(".success").hide();
-          }, 2000);
-          setTimeout(() => {
-            window.location.replace("../login");
-          }, 2000);
-        }
+        }, 2000);
+        setTimeout(() => {
+          window.location.replace("../login");
+        }, 2000);
       },
       error: function(err) {
         console.log(err);
         output = `<p class="text-center">${err.responseJSON.data.message}<i class="fas fa-user-times"></i></p>`;
 
-        $(".error").html(output);
-        $(".error").show();
+        $(".error")
+          .html(output)
+          .show();
         setTimeout(() => {
           $(".error").hide();
         }, 3000);
@@ -107,6 +113,7 @@ $(() => {
 
     const email = $(".email")
       .val()
+      .trim()
       .toLowerCase();
     const password = $(".password").val();
 
@@ -117,18 +124,20 @@ $(() => {
           <p class="text-center">please fill in a valid email  <i class="fas fa-times"></i></p>
        `;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
       return;
     }
     if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,35}$/.test(password)) {
-      output = `<p class="text-center">The password must contain not less than 6 characters  <i class="fas fa-times"></i></p>>`;
+      output = `<p class="text-center">The password must contain not less than 6 characters  <i class="fas fa-times"></i></p>`;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -147,36 +156,33 @@ $(() => {
       success: function(res) {
         output = `<p class="text-center">${res.message}<i class="fas fa-user-check"></i></p>`;
 
-        $(".success").html(output);
-        $(".success").show();
+        $(".success")
+          .html(output)
+          .show();
         setTimeout(() => {
           $(".success").hide();
-        }, 3000);
-        if (res.status === "success") {
-          setTimeout(() => {
-            $(".success").hide();
-          }, 2000);
-          User.isLoggedIn = true;
-          User.token = res.data.token;
-          localStorage.setItem("isLoggedIn", User.isLoggedIn);
-          localStorage.setItem("token", User.token);
-          localStorage.setItem("firstname", res.data.first_name);
-          localStorage.setItem("lastname", res.data.last_name);
-          localStorage.setItem("id", res.data.id);
+        }, 2000);
+        User.isLoggedIn = true;
+        User.token = res.data.token;
+        localStorage.setItem("isLoggedIn", User.isLoggedIn);
+        localStorage.setItem("token", User.token);
+        localStorage.setItem("firstname", res.data.first_name);
+        localStorage.setItem("lastname", res.data.last_name);
+        localStorage.setItem("id", res.data.id);
 
-          if (res.data.is_admin) {
-            window.location.replace("../admin.html");
-          } else {
-            window.location.replace("../hotel.html");
-          }
+        if (res.data.is_admin) {
+          window.location.replace("../admin.html");
+        } else {
+          window.location.replace("../hotel.html");
         }
       },
       error: function(err) {
         console.log(err);
         output = `<p class="text-center">${err.responseJSON.data.message}<i class="fas fa-user-times"></i></p>`;
 
-        $(".error").html(output);
-        $(".error").show();
+        $(".error")
+          .html(output)
+          .show();
         setTimeout(() => {
           $(".error").hide();
         }, 3000);

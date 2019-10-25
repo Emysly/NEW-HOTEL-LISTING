@@ -37,7 +37,7 @@ export default {
         id,
         first_name,
         last_name,
-        email: email.toLowerCase(),
+        email: email,
         password: await bcrypt.hash(password, 10),
         is_admin
       };

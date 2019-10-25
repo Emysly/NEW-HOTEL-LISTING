@@ -21,11 +21,12 @@ function getAllHotels() {
           for (let i = 0; i < hotel.rating; i++) {
             rating += `<i class="fas fa-star"></i>`;
           }
+
           output += `<tr class="text-white"><td>${hotel.name}</td>
             <td>${hotel.website}</td>
             <td>${hotel.city}</td>
             <td>${hotel.state}</td>
-            <td>${rating}</td>
+            <td class="text-success">${rating}</td>
             <td>${hotel.price}</td>
             <td>${hotel.created_by}</td>
             <td>
@@ -89,11 +90,12 @@ function updateHotel(id) {
     error: function(error) {
       console.log(error);
       message = `
-      <p class="text-center">${res.error}<i class="fas fa-times"></i></p>
+      <p class="text-center">${error.responseJSON.error.message}<i class="fas fa-times"></i></p>
    `;
 
-      $(".error").html(message);
-      $(".error").show();
+      $(".error")
+        .html(message)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -151,8 +153,9 @@ function deleteOne(id) {
       getAllHotels();
       message = `<p class="text-center">${res.data}<i class="fas fa-check"></i></p>`;
 
-      $(".success").html(message);
-      $(".success").show();
+      $(".success")
+        .html(message)
+        .show();
       setTimeout(() => {
         $(".success").hide();
       }, 3000);
@@ -162,8 +165,9 @@ function deleteOne(id) {
       console.log(error);
       message = `<p class="text-center">${error.error}<i class="fas fa-check"></i></p>`;
 
-      $(".success").html(message);
-      $(".success").show();
+      $(".success")
+        .html(message)
+        .show();
       setTimeout(() => {
         $(".success").hide();
       }, 3000);
@@ -186,8 +190,9 @@ function create() {
     <p class="text-center">name has to be filled<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -198,8 +203,9 @@ function create() {
     <p class="text-center">website has to be filled<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -210,8 +216,9 @@ function create() {
     <p class="text-center">city has to be filled<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -222,8 +229,9 @@ function create() {
     <p class="text-center">state has to be filled<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -234,8 +242,9 @@ function create() {
     <p class="text-center">rating has to be filled<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -247,8 +256,9 @@ function create() {
     <p class="text-center">rating has to be filled with only number from 1 - 5<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -259,8 +269,9 @@ function create() {
     <p class="text-center">price has to be filled<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -271,8 +282,9 @@ function create() {
     <p class="text-center">price has to be filled with only numbers<i class="fas fa-times"></i></p>
  `;
 
-    $(".create-error").html(message);
-    $(".create-error").show();
+    $(".create-error")
+      .html(message)
+      .show();
     setTimeout(() => {
       $(".create-error").hide();
     }, 3000);
@@ -307,8 +319,9 @@ function create() {
       <p class="text-center">${res.message}<i class="fas fa-check"></i></p>
    `;
 
-      $(".success").html(output);
-      $(".success").show();
+      $(".success")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".success").hide();
       }, 3000);
@@ -319,8 +332,9 @@ function create() {
       <p class="text-center">${error.error.message}<i class="fas fa-times"></i></p>
    `;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -344,8 +358,9 @@ function deleteAll() {
       <p class="text-center">${res.data}<i class="fas fa-check"></i></p>
    `;
 
-      $(".success").html(output);
-      $(".success").show();
+      $(".success")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".success").hide();
       }, 3000);
@@ -356,8 +371,9 @@ function deleteAll() {
       <p class="text-center">${error.error.message}<i class="fas fa-times"></i></p>
    `;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
@@ -374,8 +390,9 @@ $(".delete-all").on("click", e => {
       <p class="text-center">Hotels not deleted<i class="fas fa-check"></i></p>
    `;
 
-    $(".success").html(output);
-    $(".success").show();
+    $(".success")
+      .html(output)
+      .show();
     setTimeout(() => {
       $(".success").hide();
     }, 3000);
@@ -409,7 +426,7 @@ function getDetails(id) {
         <td>${website}</td>
         <td>${city}</td>
         <td>${state}</td>
-        <td>${ratings}</td>
+        <td class="text-success">${ratings}</td>
         <td>${price}</td>
         <td>${created_by}</td>
         <td>
@@ -430,8 +447,9 @@ function getDetails(id) {
       <p class="text-center">${error.error}<i class="fas fa-times"></i></p>
    `;
 
-      $(".error").html(output);
-      $(".error").show();
+      $(".error")
+        .html(output)
+        .show();
       setTimeout(() => {
         $(".error").hide();
       }, 3000);
