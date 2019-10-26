@@ -37,7 +37,7 @@ export default {
         id,
         first_name,
         last_name,
-        email: email,
+        email,
         password: await bcrypt.hash(password, 10),
         is_admin
       };
@@ -49,7 +49,7 @@ export default {
       //we will be adding this to the jwt payload using the secret
       const payload = Object.assign({
         user_id: newUser.id,
-        is_admin: newUser.admin,
+        is_admin: newUser.is_admin,
         first_name: newUser.first_name,
         last_name: newUser.last_name,
         email: newUser.email

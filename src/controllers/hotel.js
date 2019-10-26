@@ -8,7 +8,7 @@ const userDB = `${appRoot}/src/database/user.json`;
 export default class HotelController {
   static async getAllHotels(req, res) {
     try {
-      //get the user id from req body
+      //get the user email from req body
       const user_email = req.body.email;
 
       // load all hotels
@@ -127,7 +127,7 @@ export default class HotelController {
   static async getOne(req, res) {
     try {
       //get the id from req params
-      const hotelID = Number(req.params.id);
+      const hotelID = parseInt(req.params.id);
 
       // load all hotels
       const hotels = await Helper.loadHotels(hotelDB);
@@ -161,7 +161,7 @@ export default class HotelController {
   static async deleteOne(req, res) {
     try {
       //get the id from req params
-      const hotel_id = Number(req.params.id);
+      const hotel_id = parseInt(req.params.id);
 
       // load all hotels
       const allHotels = await Helper.loadHotels(hotelDB);
@@ -226,7 +226,7 @@ export default class HotelController {
   static async updateOne(req, res) {
     try {
       //get the id from req params
-      const hotel_id = Number(req.params.id);
+      const hotel_id = parseInt(req.params.id);
 
       //destructuring the req.body
       const { name, website, city, state, rating, price } = req.body;

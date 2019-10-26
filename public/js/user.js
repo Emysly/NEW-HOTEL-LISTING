@@ -80,6 +80,12 @@ $(() => {
       url: "http://localhost:3000/user/signup",
       type: "post",
       data: newUser,
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader(
+          "Authorization",
+          `Bearer ${localStorage.getItem("token")}`
+        );
+      },
       success: function(res) {
         output = `<p class="text-center">${res.message}<i class="fas fa-user-check"></i></p>`;
 
@@ -153,6 +159,12 @@ $(() => {
       url: "http://localhost:3000/user/login",
       type: "post",
       data: newUser,
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader(
+          "Authorization",
+          `Bearer ${localStorage.getItem("token")}`
+        );
+      },
       success: function(res) {
         output = `<p class="text-center">${res.message}<i class="fas fa-user-check"></i></p>`;
 
@@ -168,7 +180,6 @@ $(() => {
         localStorage.setItem("token", User.token);
         localStorage.setItem("firstname", res.data.first_name);
         localStorage.setItem("lastname", res.data.last_name);
-        localStorage.setItem("id", res.data.id);
 
         if (res.data.is_admin) {
           window.location.replace("../admin.html");

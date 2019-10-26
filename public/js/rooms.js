@@ -7,6 +7,12 @@ function getAllHotels() {
   $.ajax({
     url: "http://localhost:3000/allhotels",
     type: "get",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+    },
     success: function(response) {
       const result = response.data;
 
@@ -66,7 +72,6 @@ function updateHotel(id) {
     url: `http://localhost:3000/hotel/${id}`,
     type: "patch",
     data: updatedHotel,
-    async: true,
     beforeSend: function(xhr) {
       xhr.setRequestHeader(
         "Authorization",
@@ -305,13 +310,13 @@ function create() {
   $.ajax({
     url: "http://localhost:3000/hotels",
     type: "post",
+    data: newHotel,
     beforeSend: function(xhr) {
       xhr.setRequestHeader(
         "Authorization",
         `Bearer ${localStorage.getItem("token")}`
       );
     },
-    data: newHotel,
     success: function(res) {
       getAllHotels();
       $("#myModal").modal("hide");
@@ -352,6 +357,12 @@ function deleteAll() {
   $.ajax({
     url: `http://localhost:3000/hotels`,
     type: "delete",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+    },
     success: function(res) {
       getAllHotels();
       output = `

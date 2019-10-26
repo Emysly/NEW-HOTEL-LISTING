@@ -17,14 +17,14 @@ fs.readFile(`${appRoot}/src/keys/public.pem`, "utf8", (err, key) => {
 });
 
 export default {
+  createToken: payload =>
+    jwt.sign(payload, privateKey, { algorithm: encryptionType }),
+
   createCookie: (res, token) =>
     res.cookie("token", token, {
       expires: new Date(Date.now() + 3600000),
       httpOnly: true
     }),
-
-  createToken: payload =>
-    jwt.sign(payload, privateKey, { algorithm: encryptionType }),
 
   isLoggedIn: (req, res, next) => {
     try {

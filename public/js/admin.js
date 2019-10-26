@@ -6,6 +6,12 @@ function getAllUserHotels() {
   $.ajax({
     url: "http://localhost:3000/hotels/admin",
     type: "get",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+    },
     success: function(response) {
       const result = response.data;
 
@@ -351,6 +357,12 @@ function deleteAll() {
   $.ajax({
     url: `http://localhost:3000/hotels`,
     type: "delete",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+    },
     success: function(res) {
       getAllUserHotels();
       output = `
@@ -404,6 +416,12 @@ function getDetails(id) {
   $.ajax({
     url: `http://localhost:3000/hotel/${id}`,
     type: "get",
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader(
+        "Authorization",
+        `Bearer ${localStorage.getItem("token")}`
+      );
+    },
     success: function(response) {
       const {
         id,
